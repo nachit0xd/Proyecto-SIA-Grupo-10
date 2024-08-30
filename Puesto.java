@@ -1,4 +1,4 @@
-import java.util.List
+import java.util.List;
 
 public class Puesto{
     private int id;
