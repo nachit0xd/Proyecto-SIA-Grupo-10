@@ -16,7 +16,7 @@ public class Puesto{
         this.requisitosAdicionales = requisitosAdicionales;
     }
 
-    //Setters y getters
+    //Setters
     public void setID(int id){
         this.id = id;
     }
@@ -32,6 +32,7 @@ public class Puesto{
     public void setRequisitosAdicionales(RequisitosAdicionales requisitosAdicionales){
         this.requisitosAdicionales = requisitosAdicionales;
     }
+    //Getters
     public int getID(){
         return id;
     }

@@ -16,7 +16,7 @@ public class Postulante{
         this.educacion = educacion;
     }
 
-    //Setters y getters
+    //Setters
     public void setID(int id){
         this.id = id;
     }
@@ -32,6 +32,7 @@ public class Postulante{
     public void setEducacion(String educacion){
         this.educacion = educacion;
     }
+    //Getters
     public int getID(){
         return id;
     }
