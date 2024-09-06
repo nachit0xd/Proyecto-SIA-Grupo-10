@@ -55,7 +55,7 @@ public class SistemaSeleccion{
         return postulantesPorPuesto.getOrDefault(puesto, new ArrayList<>());
     }
 
-    public List<Postulante> seleccionarPostulantesPorCriterio(Puesto puesto, int minAniosExperiencia, String educaciónRequerida){
+    public List<Postulante> seleccionarPostulantes(Puesto puesto, int minAniosExperiencia, String educaciónRequerida){
         List<Postulante> postulantesFiltrados = new ArrayList<>();
         for (Postulante postulante : postulantes){
             if (postulante.getAniosExperiencia() >= minAniosExperiencia && postulante.getEducacion().equals(educaciónRequerida)){
