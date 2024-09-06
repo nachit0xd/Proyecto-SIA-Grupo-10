@@ -28,6 +28,28 @@ public class SistemaSeleccion{
         }
     }
 
+    public void agregarPostulantePorMenú(Scanner scanner){
+        System.out.println("Ingrese el ID del postulante: ");
+        String id = scanner.nextLine();
+        System.out.println("Ingrese el nombre del postulante: ");
+        String nombre = scanner.nextLine();
+        System.out.println("Ingrese años de experiencia del postulante: ");
+        int años = scanner.nextInt();
+        scanner.nextLine();
+        System.out.println("Ingrese nivel de educación del postulante: ");
+        String educacion = scanner.nextLine();
+
+        List<Competencia> competencias = new ArrayList<>();
+        System.out.println("Ingrese competencia: ");
+        String competencia = scanner.nextLine();
+        System.out.println("Ingrese nivel de la competencia: ");
+        String nivelCompetencia = scanner.nextLine();
+        competencias.add(new Competencia(competencia, nivelCompetencia));
+
+        Postulante postulante = new Postulante(id, nombre, competencias, añosExperiencia, educacion);
+        agregarPostulante(postulante);
+    }
+
     public List<Postulante> seleccionarPostulantes(Puesto puesto){
         return postulantesPorPuesto.getOrDefault(puesto, new ArrayList<>());
     }
@@ -40,5 +62,28 @@ public class SistemaSeleccion{
             }
         }
         return postulantesFiltrados;
+    }
+
+    public void mostrarPostulantesPorPuesto(Puesto puesto){
+        List<Postulante> seleccionados = seleccionarPostulantes(puesto);
+        if (seleccionados.isEmpty()) {
+            System.out.println("No hay postulantes para el puesto " + puesto.getNombre());
+        } else {
+            System.out.println("Postulantes para el puesto " + puesto.getNombre() + ":");
+            for (Postulante postulante : seleccionados) {
+                System.out.println("ID: " + postulante.getId() + ", Nombre: " + postulante.getNombre() +
+                        ", Años de experiencia: " + postulante.getAniosExperiencia() +
+                        ", Educación: " + postulante.getEducacion());
+            }
+        }
+    }
+
+    public Puesto buscarPuestoPorId(String puestoId) {
+        for (Puesto puesto : puestos) {
+            if (puesto.getId().equals(puestoId)) {
+                return puesto;
+            }
+        }
+        return null;
     }
 }
