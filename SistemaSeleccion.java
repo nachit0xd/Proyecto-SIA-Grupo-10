@@ -29,7 +29,7 @@ public class SistemaSeleccion{
         }
     }
 
-    public void agregarPostulantePorMenú(Scanner scanner){
+    public void agregarPostulante(Scanner scanner){
         System.out.println("Ingrese el ID del postulante: ");
         String id = scanner.nextLine();
         System.out.println("Ingrese el nombre del postulante: ");
