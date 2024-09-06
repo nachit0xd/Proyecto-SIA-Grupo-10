@@ -4,6 +4,20 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         SistemaSeleccion sistema = new SistemaSeleccion();
 
+         // Datos iniciales de postulantes
+        Postulante postulante1 = new Postulante("001", "Carlos Pérez", List.of(
+            new Competencia("Java", "Avanzado"),
+            new Competencia("Bases de Datos", "Intermedio")
+        ), 4, "Licenciatura");
+
+        Postulante postulante2 = new Postulante("002", "Ana García", List.of(
+            new Competencia("SQL", "Avanzado"),
+            new Competencia("Python", "Intermedio")
+        ), 3, "Grado Universitario");
+
+        sistema.agregarPostulante(postulante1);
+        sistema.agregarPostulante(postulante2);
+
         int opcion;
         do {
             System.out.println("\n--- Menú del Sistema de Selección ---");
