@@ -66,12 +66,12 @@ public class Postulante{
     }
      public boolean cumpleRequisitos(int minAniosExperiencia, String educacionRequerida) {
         // Verificar experiencia mínima
-        if (postulante.getAniosExperiencia() < minAniosExperiencia) {
+        if (this.aniosExperiencia < minAniosExperiencia) {
             return false;
         }
 
         // Verificar nivel de educación
-        if (postulante.getEducacion().equals(educacionRequerida)) {
+        if (!this.educacion.equals(educacionRequerida)) {
             return false;
         }
 

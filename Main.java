@@ -1,4 +1,6 @@
+import java.util.List;
 import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -30,7 +32,7 @@ public class Main {
 
             switch (opcion) {
                 case 1:
-                    sistema.agregarPostulantePorMenú(scanner);
+                    sistema.agregarPostulante(scanner);
                     break;
                 case 2:
                     System.out.println("Ingrese el ID del puesto: ");
