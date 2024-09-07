@@ -62,15 +62,32 @@ public class Postulante{
             }
             if (!cumple) return false;
         }
-
-        if (puesto.getRequisitosAdicionales() != null) {
-            if (puesto.getRequisitosAdicionales().getMinAniosExperiencia() > aniosExperiencia) {
-                return false;
+        return true;
+    }
+     public boolean cumpleRequisitos(List<Competencia> competenciasRequeridas, int minAniosExperiencia, String educacionRequerida) {
+    // Verificar las competencias requeridas
+        for (Competencia competenciaRequerida : competenciasRequeridas) {
+            boolean cumple = false;
+            for (Competencia competenciaPostulante : competencias) {
+                if (competenciaRequerida.getNombre().equals(competenciaPostulante.getNombre()) &&
+                    competenciaRequerida.getNivelRequerido().equals(competenciaPostulante.getNivelRequerido())) {
+                    cumple = true;
+                    break;
+                }
             }
-            if (!puesto.getRequisitosAdicionales().getEducacionRequerida().equals(educacion)) {
-                return false;
-            }
+            if (!cumple) return false;
         }
+
+        // Verificar experiencia mínima
+        if (aniosExperiencia < minAniosExperiencia) {
+            return false;
+        }
+
+        // Verificar nivel de educación
+        if (!educacion.equals(educacionRequerida)) {
+            return false;
+        }
+
         return true;
     }
 }
