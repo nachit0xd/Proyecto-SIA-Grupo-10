@@ -10,14 +10,14 @@ public class SistemaSeleccion{
     private Map<Puesto, List<Postulante>> postulantesPorPuesto;
 
     public SistemaSeleccion(){
-        this.puestos = new ArrayList<>();
-        this.postulantes = new ArrayList<>();
-        this.postulantesPorPuesto = new HashMap<>();
+        this.puestos = new ArrayList<Puesto>();
+        this.postulantes = new ArrayList<Postulante>();
+        this.postulantesPorPuesto = new HashMap<Puesto, List<Postulante>>();
     }
 
     public void agregarPuesto(Puesto puesto){
         puestos.add(puesto);
-        postulantesPorPuesto.put(puesto, new ArrayList<>());
+        postulantesPorPuesto.put(puesto, new ArrayList<Postulante>());
     }
 
     public void agregarPostulante(Postulante postulante){
@@ -40,7 +40,7 @@ public class SistemaSeleccion{
         System.out.println("Ingrese nivel de educación del postulante: ");
         String educacion = scanner.nextLine();
 
-        List<Competencia> competencias = new ArrayList<>();
+        List<Competencia> competencias = new ArrayList<Competencia>();
         System.out.println("Ingrese competencia: ");
         String competencia = scanner.nextLine();
         System.out.println("Ingrese nivel de la competencia: ");
@@ -52,11 +52,11 @@ public class SistemaSeleccion{
     }
 
     public List<Postulante> seleccionarPostulantes(Puesto puesto){
-        return postulantesPorPuesto.getOrDefault(puesto, new ArrayList<>());
+        return postulantesPorPuesto.getOrDefault(puesto, new ArrayList<Postulante>());
     }
 
     public List<Postulante> seleccionarPostulantes(Puesto puesto, int minAniosExperiencia, String educaciónRequerida){
-        List<Postulante> postulantesFiltrados = new ArrayList<>();
+        List<Postulante> postulantesFiltrados = new ArrayList<Postulante>();
         for (Postulante postulante : postulantes){
             if (postulante.getAniosExperiencia() >= minAniosExperiencia && postulante.getEducacion().equals(educaciónRequerida)){
                 postulantesFiltrados.add(postulante);
