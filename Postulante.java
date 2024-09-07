@@ -64,27 +64,14 @@ public class Postulante{
         }
         return true;
     }
-     public boolean cumpleRequisitos(List<Competencia> competenciasRequeridas, int minAniosExperiencia, String educacionRequerida) {
-    // Verificar las competencias requeridas
-        for (Competencia competenciaRequerida : competenciasRequeridas) {
-            boolean cumple = false;
-            for (Competencia competenciaPostulante : competencias) {
-                if (competenciaRequerida.getNombre().equals(competenciaPostulante.getNombre()) &&
-                    competenciaRequerida.getNivelRequerido().equals(competenciaPostulante.getNivelRequerido())) {
-                    cumple = true;
-                    break;
-                }
-            }
-            if (!cumple) return false;
-        }
-
+     public boolean cumpleRequisitos(int minAniosExperiencia, String educacionRequerida) {
         // Verificar experiencia mínima
-        if (aniosExperiencia < minAniosExperiencia) {
+        if (postulante.getAniosExperiencia() < minAniosExperiencia) {
             return false;
         }
 
         // Verificar nivel de educación
-        if (!educacion.equals(educacionRequerida)) {
+        if (postulante.getEducacion().equals(educacionRequerida)) {
             return false;
         }
 
