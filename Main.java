@@ -1,5 +1,6 @@
 import java.util.List;
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
@@ -32,6 +33,7 @@ public class Main {
 
             switch (opcion) {
                 case 1:
+                    //sistema.agregarPostulantePorMenú(scanner);
                     sistema.agregarPostulante(scanner);
                     break;
                 case 2:
@@ -54,4 +56,6 @@ public class Main {
 
         scanner.close();
     }
+}
+
 }
