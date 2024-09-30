@@ -5,6 +5,7 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         SistemaSeleccion sistema = new SistemaSeleccion();
+        sistema.cargarDatos();
 
          // Datos iniciales de postulantes
         Postulante postulante1 = new Postulante("001", "Carlos Pérez", List.of(
@@ -17,14 +18,13 @@ public class Main {
             new Competencia("Python", "Intermedio")
         ), 3, "Grado Universitario");
 
-        sistema.agregarPostulante(postulante1);
-        sistema.agregarPostulante(postulante2);
-
         int opcion;
         do {
             System.out.println("\n--- Menú del Sistema de Selección ---");
             System.out.println("1. Insertar o agregar postulante");
             System.out.println("2. Mostrar postulantes por puesto");
+            System.out.println("3. Mostrar todos los postulantes");
+            System.out.println("4. Agregar puesto");
             System.out.println("0. Salir");
             System.out.print("Seleccione una opción: ");
             opcion = scanner.nextInt();
@@ -45,8 +45,15 @@ public class Main {
                         System.out.println("Puesto no encontrado.");
                     }
                     break;
+                case 3:
+                    sistema.mostrarTodosLosPostulantes();
+                    break;
+                case 4:
+                    sistema.agregarPuesto(scanner);
+                    break;
                 case 0:
                     System.out.println("Saliendo...");
+                    sistema.guardarDatos();
                     break;
                 default:
                     System.out.println("Opción no válida.");
