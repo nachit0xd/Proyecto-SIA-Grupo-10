@@ -51,30 +51,25 @@ public class Postulante{
 
      // Métodos de la clase
      public boolean cumpleRequisitos(Puesto puesto) {
+        if (this.aniosExperiencia < puesto.getRequisitosAdicionales().getMinAniosExperiencia()) {
+            return false;
+        }
+        if (!this.educacion.equals(puesto.getRequisitosAdicionales().getEducacionRequerida())) {
+            return false;
+        }
         for (Competencia competenciaRequerida : puesto.getCompetenciasRequeridas()) {
             boolean cumple = false;
-            for (Competencia competenciaPostulante : competencias) {
-                if (competenciaRequerida.getNombre().equals(competenciaPostulante.getNombre()) &&
-                    competenciaRequerida.getNivelRequerido().equals(competenciaPostulante.getNivelRequerido())) {
+            for (Competencia competencia : this.competencias) {
+                if (competencia.getNombre().equals(competenciaRequerida.getNombre()) &&
+                    competencia.getNivelRequerido().equals(competenciaRequerida.getNivelRequerido())) {
                     cumple = true;
                     break;
                 }
             }
-            if (!cumple) return false;
+            if (!cumple) {
+                return false;
+            }
         }
-        return true;
-    }
-     public boolean cumpleRequisitos(int minAniosExperiencia, String educacionRequerida) {
-        // Verificar experiencia mínima
-        if (this.aniosExperiencia < minAniosExperiencia) {
-            return false;
-        }
-
-        // Verificar nivel de educación
-        if (!this.educacion.equals(educacionRequerida)) {
-            return false;
-        }
-
         return true;
     }
 }

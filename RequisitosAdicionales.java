@@ -2,6 +2,7 @@ public class RequisitosAdicionales{
     private int minAniosExperiencia;
     private String educaciónRequerida;
 
+    //Constructor
     public RequisitosAdicionales(int minAniosExperiencia, String educaciónRequerida){
         this.minAniosExperiencia = minAniosExperiencia;
         this.educaciónRequerida = educaciónRequerida;

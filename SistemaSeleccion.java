@@ -14,12 +14,14 @@ public class SistemaSeleccion{
     private List<Postulante> postulantes;
     private Map<Puesto, List<Postulante>> postulantesPorPuesto;
 
+    //Constructor
     public SistemaSeleccion(){
         this.puestos = new ArrayList<Puesto>();
         this.postulantes = new ArrayList<Postulante>();
         this.postulantesPorPuesto = new HashMap<Puesto, List<Postulante>>();
     }
 
+    //Sobrecarga de métodos para agregar puestos
     public void agregarPuesto(Puesto puesto){
         puestos.add(puesto);
         postulantesPorPuesto.put(puesto, new ArrayList<Postulante>());
@@ -54,10 +56,11 @@ public class SistemaSeleccion{
         agregarPuesto(puesto);
     }
 
+    //Sobrecarga de métodos para agregar postulantes
     public void agregarPostulante(Postulante postulante){
         postulantes.add(postulante);
-        for (Puesto puesto : puestos){
-            if (postulante.cumpleRequisitos(puesto)){
+        for (Puesto puesto : puestos) {
+            if (postulante.cumpleRequisitos(puesto)) {
                 postulantesPorPuesto.get(puesto).add(postulante);
             }
         }
@@ -85,6 +88,7 @@ public class SistemaSeleccion{
         agregarPostulante(postulante);
     }
 
+    //Métodos para seleccionar postulantes
     public List<Postulante> seleccionarPostulantes(Puesto puesto){
         return postulantesPorPuesto.getOrDefault(puesto, new ArrayList<Postulante>());
     }
@@ -99,6 +103,7 @@ public class SistemaSeleccion{
         return postulantesFiltrados;
     }
 
+    //Métodos para mostrar postulantes
     public void mostrarPostulantesPorPuesto(Puesto puesto){
         List<Postulante> seleccionados = seleccionarPostulantes(puesto);
         if (seleccionados.isEmpty()) {
@@ -125,6 +130,7 @@ public class SistemaSeleccion{
         }
     }
 
+    //Método para buscar puesto por ID
     public Puesto buscarPuestoPorId(String puestoId) {
         int puestoIdInt = Integer.parseInt(puestoId); // Convertir puestoId a int
         for (Puesto puesto : puestos) {
@@ -134,8 +140,13 @@ public class SistemaSeleccion{
         }
         return null;
     }
-    // Métodos para guardar y cargar datos
+    // Método para guardar datos de puestos y postulantes
     public void guardarDatos() {
+        guardarDatosPuestos();
+        guardarDatosPostulantes();
+    }
+
+    private void guardarDatosPuestos() {
         try (PrintWriter pw = new PrintWriter(new File("puestos.csv"))) {
             for (Puesto puesto : puestos) {
                 pw.println(puesto.getID() + "," + puesto.getNombre() + "," + puesto.getDescripcion() + "," +
@@ -143,11 +154,36 @@ public class SistemaSeleccion{
                         puesto.getRequisitosAdicionales().getEducacionRequerida());
             }
         } catch (IOException e) {
-            System.out.println("Error al guardar los datos: " + e.getMessage());
+            System.out.println("Error al guardar los datos de los puestos: " + e.getMessage());
         }
     }
 
+    private void guardarDatosPostulantes() {
+        try (PrintWriter pw = new PrintWriter(new File("postulantes.csv"))) {
+            for (Postulante postulante : postulantes) {
+                StringBuilder competencias = new StringBuilder();
+                for (Competencia competencia : postulante.getCompetencias()) {
+                    competencias.append(competencia.getNombre()).append(":").append(competencia.getNivelRequerido()).append(";");
+                }
+                // Eliminar el último punto y coma
+                if (competencias.length() > 0) {
+                    competencias.setLength(competencias.length() - 1);
+                }
+                pw.println(postulante.getID() + "," + postulante.getNombre() + "," + postulante.getAniosExperiencia() + "," +
+                        postulante.getEducacion() + "," + competencias.toString());
+            }
+        } catch (IOException e) {
+            System.out.println("Error al guardar los datos de los postulantes: " + e.getMessage());
+        }
+    }
+
+    // Método para cargar datos de puestos y postulantes
     public void cargarDatos() {
+        cargarDatosPuestos();
+        cargarDatosPostulantes();
+    }
+
+    private void cargarDatosPuestos() {
         try (BufferedReader br = new BufferedReader(new FileReader("puestos.csv"))) {
             String linea;
             while ((linea = br.readLine()) != null) {
@@ -156,17 +192,46 @@ public class SistemaSeleccion{
                     int id = Integer.parseInt(datos[0]);
                     String nombre = datos[1];
                     String descripcion = datos[2];
-                    List<Competencia> competenciasRequeridas = new ArrayList<>(); // Necesitarás cargar las competencias de alguna manera
+                    int numCompetencias = Integer.parseInt(datos[3]);
                     int minAniosExperiencia = Integer.parseInt(datos[4]);
                     String educacionRequerida = datos[5];
+                    List<Competencia> competenciasRequeridas = new ArrayList<>(); // Necesitarás cargar las competencias de alguna manera
                     RequisitosAdicionales requisitosAdicionales = new RequisitosAdicionales(minAniosExperiencia, educacionRequerida);
-    
+
                     Puesto puesto = new Puesto(id, nombre, descripcion, competenciasRequeridas, requisitosAdicionales);
                     puestos.add(puesto);
+                    postulantesPorPuesto.put(puesto, new ArrayList<>());
                 }
             }
         } catch (IOException e) {
-            System.out.println("Error al cargar los datos: " + e.getMessage());
+            System.out.println("Error al cargar los datos de los puestos: " + e.getMessage());
+        }
+    }
+
+    private void cargarDatosPostulantes() {
+        try (BufferedReader br = new BufferedReader(new FileReader("postulantes.csv"))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                String[] datos = linea.split(",");
+                if (datos.length == 5) {
+                    String id = datos[0];
+                    String nombre = datos[1];
+                    int aniosExperiencia = Integer.parseInt(datos[2]);
+                    String nivelEducacion = datos[3];
+                    String[] competenciasArray = datos[4].split(";");
+                    List<Competencia> competencias = new ArrayList<>();
+                    for (String competenciaStr : competenciasArray) {
+                        String[] comp = competenciaStr.split(":");
+                        if (comp.length == 2) {
+                            competencias.add(new Competencia(comp[0], comp[1]));
+                        }
+                    }
+                    Postulante postulante = new Postulante(id, nombre, competencias, aniosExperiencia, nivelEducacion);
+                    agregarPostulante(postulante);
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Error al cargar los datos de los postulantes: " + e.getMessage());
         }
     }
 }
