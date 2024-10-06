@@ -1,63 +1,31 @@
 import java.util.List;
 
-public class Postulante{
-    private String id;
-    private String nombre;
+public class Postulante extends Persona {
     private List<Competencia> competencias;
     private int aniosExperiencia;
     private String educacion;
     private String profesion;
 
-    //Constructor
-    public Postulante(String id, String nombre, List<Competencia> competencias, int aniosExperiencia, String educacion, String profesion){
-        this.id = id;
-        this.nombre = nombre;
+    // Constructor
+    public Postulante(String id, String nombre, List<Competencia> competencias, int aniosExperiencia, String educacion, String profesion) {
+        super(nombre, id); // Llamar al constructor de la clase padre
         this.competencias = competencias;
         this.aniosExperiencia = aniosExperiencia;
         this.educacion = educacion;
         this.profesion = profesion;
     }
 
-    //Setters
-    public void setID(String id){
-        this.id = id;
+    // Sobrescribir el método mostrarDetalles de la clase padre
+    @Override
+    public void mostrarDetalles() {
+        super.mostrarDetalles(); // Llamar al método de la clase padre
+        System.out.println("Años de experiencia: " + aniosExperiencia);
+        System.out.println("Educación: " + educacion);
+        System.out.println("Profesión: " + profesion);
     }
-    public void setNombre(String nombre){
-        this.nombre = nombre;
-    }
-    public void setCompetencias(List<Competencia> competencias){
-        this.competencias = competencias;
-    }
-    public void setAniosExperiencia(int aniosExperiencia){
-        this.aniosExperiencia = aniosExperiencia;
-    }
-    public void setEducacion(String educacion){
-        this.educacion = educacion;
-    }
-    public void setProfesion(String profesion){
-        this.profesion = profesion;
-    }
-    //Getters
-    public String getID(){
-        return id;
-    }
-    public String getNombre(){
-        return nombre;
-    }
-    public List<Competencia> getCompetencias(){
-        return competencias;
-    }
-    public int getAniosExperiencia(){
-        return aniosExperiencia;
-    }
-    public String getEducacion(){
-        return educacion;
-    }
-    public String getProfesion(){
-        return profesion;
-    }
-     // Métodos de la clase
-     public boolean cumpleRequisitos(Puesto puesto) {
+
+    // Método para verificar si el postulante cumple con los requisitos de un puesto
+    public boolean cumpleRequisitos(Puesto puesto) {
         if (this.aniosExperiencia < puesto.getRequisitosAdicionales().getMinAniosExperiencia()) {
             return false;
         }
@@ -78,5 +46,38 @@ public class Postulante{
             }
         }
         return true;
+    }
+
+    // Getters y setters
+    public List<Competencia> getCompetencias() {
+        return competencias;
+    }
+
+    public void setCompetencias(List<Competencia> competencias) {
+        this.competencias = competencias;
+    }
+
+    public int getAniosExperiencia() {
+        return aniosExperiencia;
+    }
+
+    public void setAniosExperiencia(int aniosExperiencia) {
+        this.aniosExperiencia = aniosExperiencia;
+    }
+
+    public String getEducacion() {
+        return educacion;
+    }
+
+    public void setEducacion(String educacion) {
+        this.educacion = educacion;
+    }
+
+    public String getProfesion() {
+        return profesion;
+    }
+
+    public void setProfesion(String profesion) {
+        this.profesion = profesion;
     }
 }
