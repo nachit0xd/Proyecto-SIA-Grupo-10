@@ -14,7 +14,7 @@ public class MainFrame extends JFrame {
         sistema.cargarDatos(); 
 
         setTitle("Sistema de Selección");
-        setSize(400, 300);
+        setSize(700, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
@@ -99,6 +99,22 @@ public class MainFrame extends JFrame {
             }
         });
 
+        JButton btnBuscarPostulantesPorExperiencia = new JButton("Buscar Postulantes por Mínimo de experiencia");
+        btnBuscarPostulantesPorExperiencia.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                buscarPostulantesPorExperiencia();
+            }
+        });
+
+        JButton btnBuscarPostulantesPorEducacion = new JButton("Buscar Postulantes por Nivel de Educación");
+        btnBuscarPostulantesPorEducacion.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                buscarPostulantesPorEducacion();
+            }
+        });
+
         JButton btnVolver = new JButton("Volver");
         btnVolver.addActionListener(new ActionListener() {
             @Override
@@ -111,6 +127,8 @@ public class MainFrame extends JFrame {
         panel.add(btnMostrarPostulantesPorPuesto);
         panel.add(btnMostrarTodosLosPostulantes);
         panel.add(btnBuscarPostulantePorId);
+        panel.add(btnBuscarPostulantesPorExperiencia);
+        panel.add(btnBuscarPostulantesPorEducacion);
         panel.add(btnVolver);
 
         setContentPane(panel);
@@ -320,6 +338,53 @@ public class MainFrame extends JFrame {
             } catch (PostulanteNoEncontradoException e) {
                 JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
+        }
+    }
+
+    // Métodos para buscar postulantes por experiencia y educación
+    private void buscarPostulantesPorExperiencia() {
+        JTextField aniosExperienciaField = new JTextField();
+
+        Object[] message = {
+            "Min. Años de Experiencia:", aniosExperienciaField
+        };
+
+        int option = JOptionPane.showConfirmDialog(this, message, "Buscar Postulantes por Minimo de experiencia", JOptionPane.OK_CANCEL_OPTION);
+        if (option == JOptionPane.OK_OPTION) {
+            try {
+                int aniosExperiencia = Integer.parseInt(aniosExperienciaField.getText());
+                List<Postulante> postulantes = sistema.filtrarPostulantesPorExperiencia(aniosExperiencia);
+                StringBuilder sb = new StringBuilder();
+                for (Postulante postulante : postulantes) {
+                    sb.append("ID: ").append(postulante.getID()).append(", Nombre: ").append(postulante.getNombre()).append(", Años de Experiencia: ").append(postulante.getAniosExperiencia()).append("\n");
+                }
+                JTextArea textArea = new JTextArea(sb.toString());
+                textArea.setEditable(false);
+                JOptionPane.showMessageDialog(this, new JScrollPane(textArea), "Postulantes con " + aniosExperiencia + " años de experiencia", JOptionPane.INFORMATION_MESSAGE);
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Por favor, ingrese un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+    private void buscarPostulantesPorEducacion() {
+        JTextField nivelEducacionField = new JTextField();
+
+        Object[] message = {
+            "Nivel de Educación:", nivelEducacionField
+        };
+
+        int option = JOptionPane.showConfirmDialog(this, message, "Buscar Postulantes por Nivel de Educación", JOptionPane.OK_CANCEL_OPTION);
+        if (option == JOptionPane.OK_OPTION) {
+            String nivelEducacion = nivelEducacionField.getText();
+            List<Postulante> postulantes = sistema.filtrarPostulantesPorNivelEducacion(nivelEducacion);
+            StringBuilder sb = new StringBuilder();
+            for (Postulante postulante : postulantes) {
+                sb.append("ID: ").append(postulante.getID()).append(", Nombre: ").append(postulante.getNombre()).append(", Nivel de Educación: ").append(postulante.getEducacion()).append("\n");
+            }
+            JTextArea textArea = new JTextArea(sb.toString());
+            textArea.setEditable(false);
+            JOptionPane.showMessageDialog(this, new JScrollPane(textArea), "Postulantes con nivel de educación: " + nivelEducacion, JOptionPane.INFORMATION_MESSAGE);
         }
     }
 

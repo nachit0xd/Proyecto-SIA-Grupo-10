@@ -31,8 +31,6 @@ public class SistemaSeleccion{
     public List<Postulante> getPostulantes() {
         return postulantes;
     }
-    
-
     //Sobrecarga de métodos para agregar puestos
     public void agregarPuesto(Puesto puesto){
         puestos.add(puesto);
@@ -142,6 +140,27 @@ public class SistemaSeleccion{
                         ", Educación: " + postulante.getEducacion());
             }
         }
+    }
+
+    //Métodos para filtrar postulantes
+    public List<Postulante> filtrarPostulantesPorExperiencia(int aniosExperiencia) {
+        List<Postulante> filtrados = new ArrayList<>();
+        for (Postulante postulante : postulantes) {
+            if (postulante.getAniosExperiencia() >= aniosExperiencia) {
+                filtrados.add(postulante);
+            }
+        }
+        return filtrados;
+    }
+
+    public List<Postulante> filtrarPostulantesPorNivelEducacion(String nivelEducacion) {
+        List<Postulante> filtrados = new ArrayList<>();
+        for (Postulante postulante : postulantes) {
+            if (postulante.getEducacion().equalsIgnoreCase(nivelEducacion)) {
+                filtrados.add(postulante);
+            }
+        }
+        return filtrados;
     }
 
     //Método para buscar postulante por ID
