@@ -6,14 +6,16 @@ public class Puesto{
     private String descripcion;
     private List<Competencia> competenciasRequeridas;
     private RequisitosAdicionales requisitosAdicionales;
+    private String profesion;
 
     //Constructor
-    public Puesto(int id, String nombre, String descripcion, List<Competencia> competenciasRequeridas, RequisitosAdicionales requisitosAdicionales){
+    public Puesto(int id, String nombre, String descripcion, List<Competencia> competenciasRequeridas, RequisitosAdicionales requisitosAdicionales, String profesion){
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.competenciasRequeridas = competenciasRequeridas;
         this.requisitosAdicionales = requisitosAdicionales;
+        this.profesion = profesion;
     }
 
     //Setters
@@ -32,6 +34,9 @@ public class Puesto{
     public void setRequisitosAdicionales(RequisitosAdicionales requisitosAdicionales){
         this.requisitosAdicionales = requisitosAdicionales;
     }
+    public void setProfesion(String profesion){
+        this.profesion = profesion;
+    }
     //Getters
     public int getID(){
         return id;
@@ -47,5 +52,8 @@ public class Puesto{
     }
     public RequisitosAdicionales getRequisitosAdicionales(){
         return requisitosAdicionales;
+    }
+    public String getProfesion(){
+        return profesion;
     }
 }

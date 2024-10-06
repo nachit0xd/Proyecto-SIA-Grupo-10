@@ -2,6 +2,7 @@ public class Competencia{
     private String nombre;
     private String nivelRequerido;
 
+    //Constructor
     public Competencia(String nombre, String nivelRequerido){
         this.nombre = nombre;
         this.nivelRequerido = nivelRequerido;

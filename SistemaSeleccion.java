@@ -1,6 +1,8 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -21,12 +23,21 @@ public class SistemaSeleccion{
         this.postulantesPorPuesto = new HashMap<Puesto, List<Postulante>>();
     }
 
+    //Getters
+    public List<Puesto> getPuestos() {
+        return puestos;
+    }
+
+    public List<Postulante> getPostulantes() {
+        return postulantes;
+    }
+
     //Sobrecarga de métodos para agregar puestos
     public void agregarPuesto(Puesto puesto){
         puestos.add(puesto);
         postulantesPorPuesto.put(puesto, new ArrayList<Postulante>());
     }
-
+/* 
     public void agregarPuesto(Scanner scanner){
         System.out.println("Ingrese el ID del puesto: ");
         int id = scanner.nextInt();
@@ -55,17 +66,12 @@ public class SistemaSeleccion{
         Puesto puesto = new Puesto(id, nombre, descripcion, competencias, requisitosAdicionales);
         agregarPuesto(puesto);
     }
-
+*/
     //Sobrecarga de métodos para agregar postulantes
     public void agregarPostulante(Postulante postulante){
         postulantes.add(postulante);
-        for (Puesto puesto : puestos) {
-            if (postulante.cumpleRequisitos(puesto)) {
-                postulantesPorPuesto.get(puesto).add(postulante);
-            }
-        }
     }
-
+/* 
     public void agregarPostulante(Scanner scanner){
         System.out.println("Ingrese el ID del postulante: ");
         String id = scanner.nextLine();
@@ -87,10 +93,17 @@ public class SistemaSeleccion{
         Postulante postulante = new Postulante(id, nombre, competencias, años, educacion);
         agregarPostulante(postulante);
     }
-
+*/
     //Métodos para seleccionar postulantes
-    public List<Postulante> seleccionarPostulantes(Puesto puesto){
-        return postulantesPorPuesto.getOrDefault(puesto, new ArrayList<Postulante>());
+    public List<Postulante> seleccionarPostulantes(Puesto puesto) {
+        List<Postulante> seleccionados = new ArrayList<>();
+        for (Postulante postulante : postulantes) {
+            if (postulante.getProfesion().equalsIgnoreCase(puesto.getProfesion()) &&
+                postulante.cumpleRequisitos(puesto)) {
+                seleccionados.add(postulante);
+            }
+        }
+        return seleccionados;
     }
 
     public List<Postulante> seleccionarPostulantes(Puesto puesto, int minAniosExperiencia, String educaciónRequerida){
@@ -130,15 +143,24 @@ public class SistemaSeleccion{
         }
     }
 
+    //Método para buscar postulante por ID
+    public Postulante buscarPostulantePorId(String id) throws PostulanteNoEncontradoException {
+        for (Postulante postulante : postulantes) {
+            if (postulante.getID().equals(id)) {
+                return postulante;
+            }
+        }
+        throw new PostulanteNoEncontradoException("Postulante con ID " + id + " no encontrado.");
+    }
+
     //Método para buscar puesto por ID
-    public Puesto buscarPuestoPorId(String puestoId) {
-        int puestoIdInt = Integer.parseInt(puestoId); // Convertir puestoId a int
+    public Puesto buscarPuestoPorId(int puestoId) throws PuestoNoEncontradoException {
         for (Puesto puesto : puestos) {
-            if (puesto.getID() == puestoIdInt) { // Comparar valores enteros
+            if (puesto.getID() == puestoId) { // Comparar valores enteros
                 return puesto;
             }
         }
-        return null;
+        throw new PuestoNoEncontradoException("Puesto con ID " + puestoId + " no encontrado.");
     }
     // Método para guardar datos de puestos y postulantes
     public void guardarDatos() {
@@ -147,11 +169,12 @@ public class SistemaSeleccion{
     }
 
     private void guardarDatosPuestos() {
-        try (PrintWriter pw = new PrintWriter(new File("puestos.csv"))) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("puestos.csv"))) {
             for (Puesto puesto : puestos) {
-                pw.println(puesto.getID() + "," + puesto.getNombre() + "," + puesto.getDescripcion() + "," +
-                        puesto.getCompetenciasRequeridas().size() + "," + puesto.getRequisitosAdicionales().getMinAniosExperiencia() + "," +
-                        puesto.getRequisitosAdicionales().getEducacionRequerida());
+                bw.write(puesto.getID() + "," + puesto.getNombre() + "," + puesto.getDescripcion() + "," +
+                         puesto.getCompetenciasRequeridas().size() + "," + puesto.getRequisitosAdicionales().getMinAniosExperiencia() + "," +
+                         puesto.getRequisitosAdicionales().getEducacionRequerida() + "," + puesto.getProfesion());
+                bw.newLine();
             }
         } catch (IOException e) {
             System.out.println("Error al guardar los datos de los puestos: " + e.getMessage());
@@ -159,18 +182,18 @@ public class SistemaSeleccion{
     }
 
     private void guardarDatosPostulantes() {
-        try (PrintWriter pw = new PrintWriter(new File("postulantes.csv"))) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("postulantes.csv"))) {
             for (Postulante postulante : postulantes) {
-                StringBuilder competencias = new StringBuilder();
+                StringBuilder competenciasStr = new StringBuilder();
                 for (Competencia competencia : postulante.getCompetencias()) {
-                    competencias.append(competencia.getNombre()).append(":").append(competencia.getNivelRequerido()).append(";");
+                    if (competenciasStr.length() > 0) {
+                        competenciasStr.append(";");
+                    }
+                    competenciasStr.append(competencia.getNombre()).append(":").append(competencia.getNivelRequerido());
                 }
-                // Eliminar el último punto y coma
-                if (competencias.length() > 0) {
-                    competencias.setLength(competencias.length() - 1);
-                }
-                pw.println(postulante.getID() + "," + postulante.getNombre() + "," + postulante.getAniosExperiencia() + "," +
-                        postulante.getEducacion() + "," + competencias.toString());
+                bw.write(postulante.getID() + "," + postulante.getNombre() + "," + postulante.getAniosExperiencia() + "," +
+                         postulante.getEducacion() + "," + postulante.getProfesion() + "," + competenciasStr.toString());
+                bw.newLine();
             }
         } catch (IOException e) {
             System.out.println("Error al guardar los datos de los postulantes: " + e.getMessage());
@@ -188,19 +211,21 @@ public class SistemaSeleccion{
             String linea;
             while ((linea = br.readLine()) != null) {
                 String[] datos = linea.split(",");
-                if (datos.length == 6) {
+                if (datos.length == 7) { // Asegúrate de que la longitud sea 7 para incluir el nuevo parámetro
                     int id = Integer.parseInt(datos[0]);
                     String nombre = datos[1];
                     String descripcion = datos[2];
                     int numCompetencias = Integer.parseInt(datos[3]);
                     int minAniosExperiencia = Integer.parseInt(datos[4]);
                     String educacionRequerida = datos[5];
+                    String profesion = datos[6]; // Este es el nuevo parámetro
                     List<Competencia> competenciasRequeridas = new ArrayList<>(); // Necesitarás cargar las competencias de alguna manera
                     RequisitosAdicionales requisitosAdicionales = new RequisitosAdicionales(minAniosExperiencia, educacionRequerida);
 
-                    Puesto puesto = new Puesto(id, nombre, descripcion, competenciasRequeridas, requisitosAdicionales);
-                    puestos.add(puesto);
-                    postulantesPorPuesto.put(puesto, new ArrayList<>());
+                    Puesto puesto = new Puesto(id, nombre, descripcion, competenciasRequeridas, requisitosAdicionales, profesion);
+                    agregarPuesto(puesto);
+                } else {
+                    System.out.println("Línea con formato incorrecto: " + linea);
                 }
             }
         } catch (IOException e) {
@@ -213,12 +238,13 @@ public class SistemaSeleccion{
             String linea;
             while ((linea = br.readLine()) != null) {
                 String[] datos = linea.split(",");
-                if (datos.length == 5) {
+                if (datos.length == 6) { // Asegúrate de que la longitud sea 6 para incluir el nuevo parámetro
                     String id = datos[0];
                     String nombre = datos[1];
                     int aniosExperiencia = Integer.parseInt(datos[2]);
                     String nivelEducacion = datos[3];
-                    String[] competenciasArray = datos[4].split(";");
+                    String profesion = datos[4]; // Este es el nuevo parámetro
+                    String[] competenciasArray = datos[5].split(";");
                     List<Competencia> competencias = new ArrayList<>();
                     for (String competenciaStr : competenciasArray) {
                         String[] comp = competenciaStr.split(":");
@@ -226,8 +252,10 @@ public class SistemaSeleccion{
                             competencias.add(new Competencia(comp[0], comp[1]));
                         }
                     }
-                    Postulante postulante = new Postulante(id, nombre, competencias, aniosExperiencia, nivelEducacion);
+                    Postulante postulante = new Postulante(id, nombre, competencias, aniosExperiencia, nivelEducacion, profesion);
                     agregarPostulante(postulante);
+                } else {
+                    System.out.println("Línea con formato incorrecto: " + linea);
                 }
             }
         } catch (IOException e) {
