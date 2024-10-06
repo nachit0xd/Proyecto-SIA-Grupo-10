@@ -22,4 +22,7 @@ public class Competencia{
     public String getNivelRequerido(){
         return this.nivelRequerido;
     }
+    public String toString() {
+        return nombre + " (" + nivelRequerido + ")";
+    }
 }
