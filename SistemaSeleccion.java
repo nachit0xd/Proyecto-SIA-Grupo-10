@@ -162,48 +162,33 @@ public class SistemaSeleccion{
         }
         throw new PuestoNoEncontradoException("Puesto con ID " + puestoId + " no encontrado.");
     }
-    // Método para guardar datos de puestos y postulantes
-    public void guardarDatos() {
-        guardarDatosPuestos();
-        guardarDatosPostulantes();
+
+    //Métodos para editar y eliminar puestos
+    public void editarPuesto(int id, String nombre, String descripcion, int minAniosExperiencia, String educacionRequerida, String profesion, List<Competencia> competenciasRequeridas) throws PuestoNoEncontradoException {
+        Puesto puesto = buscarPuestoPorId(id);
+        puesto.setNombre(nombre);
+        puesto.setDescripcion(descripcion);
+        puesto.getRequisitosAdicionales().setMinAniosExperiencia(minAniosExperiencia);
+        puesto.getRequisitosAdicionales().setEducaciónRequerida(educacionRequerida);
+        puesto.setProfesion(profesion);
+        puesto.setCompetenciasRequeridas(competenciasRequeridas);
     }
 
-    private void guardarDatosPuestos() {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter("puestos.csv"))) {
-            for (Puesto puesto : puestos) {
-                bw.write(puesto.getID() + "," + puesto.getNombre() + "," + puesto.getDescripcion() + "," +
-                         puesto.getCompetenciasRequeridas().size() + "," + puesto.getRequisitosAdicionales().getMinAniosExperiencia() + "," +
-                         puesto.getRequisitosAdicionales().getEducacionRequerida() + "," + puesto.getProfesion());
-                bw.newLine();
-            }
-        } catch (IOException e) {
-            System.out.println("Error al guardar los datos de los puestos: " + e.getMessage());
-        }
+    public void eliminarPuesto(int id) throws PuestoNoEncontradoException {
+        Puesto puesto = buscarPuestoPorId(id);
+        puestos.remove(puesto);
+        postulantes.removeIf(postulante -> postulante.getProfesion().equalsIgnoreCase(puesto.getProfesion()));
     }
 
-    private void guardarDatosPostulantes() {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter("postulantes.csv"))) {
-            for (Postulante postulante : postulantes) {
-                StringBuilder competenciasStr = new StringBuilder();
-                for (Competencia competencia : postulante.getCompetencias()) {
-                    if (competenciasStr.length() > 0) {
-                        competenciasStr.append(";");
-                    }
-                    competenciasStr.append(competencia.getNombre()).append(":").append(competencia.getNivelRequerido());
-                }
-                bw.write(postulante.getID() + "," + postulante.getNombre() + "," + postulante.getAniosExperiencia() + "," +
-                         postulante.getEducacion() + "," + postulante.getProfesion() + "," + competenciasStr.toString());
-                bw.newLine();
-            }
-        } catch (IOException e) {
-            System.out.println("Error al guardar los datos de los postulantes: " + e.getMessage());
-        }
-    }
-
-    // Método para cargar datos de puestos y postulantes
+    // Método para cargar y guardar datos de puestos y postulantes
     public void cargarDatos() {
         cargarDatosPuestos();
         cargarDatosPostulantes();
+    }
+
+    public void guardarDatos() {
+        guardarDatosPuestos();
+        guardarDatosPostulantes();
     }
 
     private void cargarDatosPuestos() {
@@ -260,6 +245,38 @@ public class SistemaSeleccion{
             }
         } catch (IOException e) {
             System.out.println("Error al cargar los datos de los postulantes: " + e.getMessage());
+        }
+    }
+
+    private void guardarDatosPuestos() {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("puestos.csv"))) {
+            for (Puesto puesto : puestos) {
+                bw.write(puesto.getID() + "," + puesto.getNombre() + "," + puesto.getDescripcion() + "," +
+                         puesto.getCompetenciasRequeridas().size() + "," + puesto.getRequisitosAdicionales().getMinAniosExperiencia() + "," +
+                         puesto.getRequisitosAdicionales().getEducacionRequerida() + "," + puesto.getProfesion());
+                bw.newLine();
+            }
+        } catch (IOException e) {
+            System.out.println("Error al guardar los datos de los puestos: " + e.getMessage());
+        }
+    }
+
+    private void guardarDatosPostulantes() {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("postulantes.csv"))) {
+            for (Postulante postulante : postulantes) {
+                StringBuilder competenciasStr = new StringBuilder();
+                for (Competencia competencia : postulante.getCompetencias()) {
+                    if (competenciasStr.length() > 0) {
+                        competenciasStr.append(";");
+                    }
+                    competenciasStr.append(competencia.getNombre()).append(":").append(competencia.getNivelRequerido());
+                }
+                bw.write(postulante.getID() + "," + postulante.getNombre() + "," + postulante.getAniosExperiencia() + "," +
+                         postulante.getEducacion() + "," + postulante.getProfesion() + "," + competenciasStr.toString());
+                bw.newLine();
+            }
+        } catch (IOException e) {
+            System.out.println("Error al guardar los datos de los postulantes: " + e.getMessage());
         }
     }
 }

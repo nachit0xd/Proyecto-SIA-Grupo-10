@@ -121,8 +121,8 @@ public class MainFrame extends JFrame {
     // Método para mostrar el menú de puestos
     private void showPuestosMenu() {
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(2, 1));
-
+        panel.setLayout(new GridLayout(4, 1));
+    
         JButton btnAgregarPuesto = new JButton("Agregar Puesto");
         btnAgregarPuesto.addActionListener(new ActionListener() {
             @Override
@@ -130,7 +130,23 @@ public class MainFrame extends JFrame {
                 agregarPuesto();
             }
         });
-
+    
+        JButton btnEditarPuesto = new JButton("Editar Puesto");
+        btnEditarPuesto.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                editarPuesto();
+            }
+        });
+    
+        JButton btnEliminarPuesto = new JButton("Eliminar Puesto");
+        btnEliminarPuesto.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                eliminarPuesto();
+            }
+        });
+    
         JButton btnVolver = new JButton("Volver");
         btnVolver.addActionListener(new ActionListener() {
             @Override
@@ -138,10 +154,12 @@ public class MainFrame extends JFrame {
                 showMainMenu();
             }
         });
-
+    
         panel.add(btnAgregarPuesto);
+        panel.add(btnEditarPuesto);
+        panel.add(btnEliminarPuesto);
         panel.add(btnVolver);
-
+    
         setContentPane(panel);
         revalidate();
         repaint();
@@ -155,7 +173,7 @@ public class MainFrame extends JFrame {
         JTextField nivelEducacionField = new JTextField();
         JTextField competenciasField = new JTextField();
         JTextField profesionField = new JTextField(); // Nuevo campo
-
+    
         Object[] message = {
             "ID:", idField,
             "Nombre:", nombreField,
@@ -164,7 +182,7 @@ public class MainFrame extends JFrame {
             "Competencias (separadas por ;):", competenciasField,
             "Profesión:", profesionField // Nuevo campo
         };
-
+    
         int option = JOptionPane.showConfirmDialog(this, message, "Agregar Postulante", JOptionPane.OK_CANCEL_OPTION);
         if (option == JOptionPane.OK_OPTION) {
             try {
@@ -305,6 +323,76 @@ public class MainFrame extends JFrame {
         }
     }
 
+    // Método para editar un puesto
+    private void editarPuesto() {
+        JTextField idField = new JTextField();
+
+        Object[] message = {
+         "ID del Puesto a Editar:", idField
+        };
+
+        int option = JOptionPane.showConfirmDialog(this, message, "Editar Puesto", JOptionPane.OK_CANCEL_OPTION);
+        if (option == JOptionPane.OK_OPTION) {
+            try {
+                int id = Integer.parseInt(idField.getText());
+                Puesto puesto = sistema.buscarPuestoPorId(id);
+
+                JTextField nombreField = new JTextField(puesto.getNombre());
+                JTextField descripcionField = new JTextField(puesto.getDescripcion());
+                JTextField minAniosExperienciaField = new JTextField(String.valueOf(puesto.getRequisitosAdicionales().getMinAniosExperiencia()));
+                JTextField educacionRequeridaField = new JTextField(puesto.getRequisitosAdicionales().getEducacionRequerida());
+                JTextField competenciasField = new JTextField(); // Necesitarás convertir las competencias a String
+                JTextField profesionField = new JTextField(puesto.getProfesion());
+
+                Object[] editMessage = {
+                    "Nombre:", nombreField,
+                    "Descripción:", descripcionField,
+                    "Años Mínimos de Experiencia:", minAniosExperienciaField,
+                    "Educación Requerida:", educacionRequeridaField,
+                    "Competencias (separadas por ;):", competenciasField,
+                    "Profesión:", profesionField
+                };
+
+                int editOption = JOptionPane.showConfirmDialog(this, editMessage, "Editar Puesto", JOptionPane.OK_CANCEL_OPTION);
+                if (editOption == JOptionPane.OK_OPTION) {
+                    puesto.setNombre(nombreField.getText());
+                    puesto.setDescripcion(descripcionField.getText());
+                    puesto.getRequisitosAdicionales().setMinAniosExperiencia(Integer.parseInt(minAniosExperienciaField.getText()));
+                    puesto.getRequisitosAdicionales().setEducaciónRequerida(educacionRequeridaField.getText());
+                    puesto.setProfesion(profesionField.getText());
+                    // Necesitarás actualizar las competencias también
+                    JOptionPane.showMessageDialog(this, "Puesto editado exitosamente.");
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "ID del Puesto debe ser un número.", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (PuestoNoEncontradoException e) {
+                JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+    // Método para eliminar un puesto
+    private void eliminarPuesto() {
+        JTextField idField = new JTextField();
+
+        Object[] message = {
+            "ID del Puesto a Eliminar:", idField
+        };
+
+        int option = JOptionPane.showConfirmDialog(this, message, "Eliminar Puesto", JOptionPane.OK_CANCEL_OPTION);
+        if (option == JOptionPane.OK_OPTION) {
+            try {
+                int id = Integer.parseInt(idField.getText());
+                Puesto puesto = sistema.buscarPuestoPorId(id);
+                sistema.getPuestos().remove(puesto);
+                JOptionPane.showMessageDialog(this, "Puesto eliminado exitosamente.");
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "ID del Puesto debe ser un número.", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (PuestoNoEncontradoException e) {
+                JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
     // Método main
     public static void main(String[] args) {
         SistemaSeleccion sistema = new SistemaSeleccion();
