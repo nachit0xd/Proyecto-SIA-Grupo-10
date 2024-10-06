@@ -32,28 +32,6 @@ public class SistemaSeleccion{
         return postulantes;
     }
     
-    // Datos iniciales
-    RequisitosAdicionales req1 = new RequisitosAdicionales(5, "Ingeniería");
-    List<Competencia> competencias1 = new ArrayList<>();
-    competencias1.add(new Competencia("Programación", "Avanzado"));
-    Puesto puesto1 = new Puesto(1, "Desarrollador", "Desarrollador backend", competencias1, req1, "Ingeniero");
-
-    RequisitosAdicionales req2 = new RequisitosAdicionales(3, "Administración");
-    List<Competencia> competencias2 = new ArrayList<>();
-    competencias2.add(new Competencia("Gestión de proyectos", "Intermedio"));
-    Puesto puesto2 = new Puesto(2, "Gerente de proyectos", "Gestión de proyectos", competencias2, req2, "Administrador");
-
-    // Agregar los puestos a la lista
-    puestos.add(puesto1);
-    puestos.add(puesto2);
-    postulantesPorPuesto.put(puesto1, new ArrayList<Postulante>());
-    postulantesPorPuesto.put(puesto2, new ArrayList<Postulante>());
-
-    List<Competencia> compPostulante = new ArrayList<>();
-    compPostulante.add(new Competencia("Programación", "Avanzado"));
-    Postulante postulante1 = new Postulante("P001", "Juan Pérez", compPostulante, 6, "Ingeniería", "Ingeniero");
-
-    postulantes.add(postulante1);
 
     //Sobrecarga de métodos para agregar puestos
     public void agregarPuesto(Puesto puesto){
