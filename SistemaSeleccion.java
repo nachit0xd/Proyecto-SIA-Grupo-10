@@ -299,4 +299,35 @@ public class SistemaSeleccion{
             System.out.println("Error al guardar los datos de los postulantes: " + e.getMessage());
         }
     }
+
+    public void generarReporte(String nombreArchivo) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(nombreArchivo))) {
+            bw.write("Reporte de Postulantes y Puestos\n");
+            bw.write("===============================\n\n");
+
+            bw.write("Puestos:\n");
+            for (Puesto puesto : puestos) {
+                bw.write("ID: " + puesto.getID() + ", Nombre: " + puesto.getNombre() + ", Descripción: " + puesto.getDescripcion() + "\n");
+                bw.write("Competencias Requeridas:\n");
+                for (Competencia competencia : puesto.getCompetenciasRequeridas()) {
+                    bw.write("- " + competencia.getNombre() + ": " + competencia.getNivelRequerido() + "\n");
+                }
+                bw.write("Requisitos Adicionales: " + puesto.getRequisitosAdicionales() + "\n");
+                bw.write("Profesión: " + puesto.getProfesion() + "\n\n");
+            }
+
+            bw.write("Postulantes:\n");
+            for (Postulante postulante : postulantes) {
+                bw.write("ID: " + postulante.getID() + ", Nombre: " + postulante.getNombre() + ", Años de Experiencia: " + postulante.getAniosExperiencia() + "\n");
+                bw.write("Nivel de Educación: " + postulante.getEducacion() + ", Profesión: " + postulante.getProfesion() + "\n");
+                bw.write("Competencias:\n");
+                for (Competencia competencia : postulante.getCompetencias()) {
+                    bw.write("- " + competencia.getNombre() + ": " + competencia.getNivelRequerido() + "\n");
+                }
+                bw.write("\n");
+            }
+        } catch (IOException e) {
+            System.out.println("Error al generar el reporte: " + e.getMessage());
+        }
+    }
 }

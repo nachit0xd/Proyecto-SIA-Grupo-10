@@ -26,7 +26,7 @@ public class MainFrame extends JFrame {
     // Método para mostrar el menú principal
     private void showMainMenu() {
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(3, 1));
+        panel.setLayout(new GridLayout(4, 1));
 
         JButton btnPostulantes = new JButton("Postulantes");
         btnPostulantes.addActionListener(new ActionListener() {
@@ -44,6 +44,14 @@ public class MainFrame extends JFrame {
             }
         });
 
+        JButton btnGenerarReporte = new JButton("Generar Reporte");
+        btnGenerarReporte.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                generarReporte();
+            }
+        });
+
         JButton btnSalir = new JButton("Salir");
         btnSalir.addActionListener(new ActionListener() {
             @Override
@@ -55,6 +63,7 @@ public class MainFrame extends JFrame {
 
         panel.add(btnPostulantes);
         panel.add(btnPuestos);
+        panel.add(btnGenerarReporte);
         panel.add(btnSalir);
 
         setContentPane(panel);
@@ -456,6 +465,16 @@ public class MainFrame extends JFrame {
             } catch (PuestoNoEncontradoException e) {
                 JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
+        }
+    }
+
+    private void generarReporte() {
+        String nombreArchivo = JOptionPane.showInputDialog(this, "Ingrese el nombre del archivo para el reporte (ej. reporte.txt):");
+        if (nombreArchivo != null && !nombreArchivo.trim().isEmpty()) {
+            sistema.generarReporte(nombreArchivo);
+            JOptionPane.showMessageDialog(this, "Reporte generado exitosamente en " + nombreArchivo);
+        } else {
+            JOptionPane.showMessageDialog(this, "Nombre de archivo no válido.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
     // Método main

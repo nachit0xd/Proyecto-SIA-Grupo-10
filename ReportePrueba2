@@ -1,0 +1,32 @@
+Reporte de Postulantes y Puestos
+===============================
+
+Puestos:
+ID: 111, Nombre: Chef Italiano, Descripción: Cocinar y preparar platillos de origen italiano
+Competencias Requeridas:
+Requisitos Adicionales: RequisitosAdicionales@699d86bd
+Profesión: Chef
+
+Postulantes:
+ID: 1, Nombre: Juan Perez, Años de Experiencia: 5
+Nivel de Educación: Ingeniería en Sistemas, Profesión: Desarrollador
+Competencias:
+- Java: Avanzado
+- Python: Intermedio
+
+ID: 2, Nombre: Ignacio, Años de Experiencia: 5
+Nivel de Educación: Grado Universitario, Profesión: Programador
+Competencias:
+- Desarrollador en Python: Alto
+- Desarrollador en C: Bajo
+
+ID: 3, Nombre: Ignacio, Años de Experiencia: 5
+Nivel de Educación: Grado Universitario, Profesión: Chef
+Competencias:
+- Prepara platillos italianos: Alto
+
+ID: 777, Nombre: Jake, Años de Experiencia: 9
+Nivel de Educación: Doctorado en Medicina, Profesión: Medico
+Competencias:
+- Conocedor del área medicinal: Alto
+
