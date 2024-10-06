@@ -179,7 +179,7 @@ public class MainFrame extends JFrame {
             "Nombre:", nombreField,
             "Años de Experiencia:", aniosExperienciaField,
             "Nivel de Educación:", nivelEducacionField,
-            "Competencias (separadas por ;):", competenciasField,
+            "Competencias (formato: nombre:nivel;nombre:nivel):", competenciasField,
             "Profesión:", profesionField // Nuevo campo
         };
     
