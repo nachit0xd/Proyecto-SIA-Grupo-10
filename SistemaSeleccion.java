@@ -164,9 +164,9 @@ public class SistemaSeleccion{
     }
 
     //Método para buscar postulante por ID
-    public Postulante buscarPostulantePorId(String id) throws PostulanteNoEncontradoException {
+    public Postulante buscarPostulantePorId(int id) throws PostulanteNoEncontradoException {
         for (Postulante postulante : postulantes) {
-            if (postulante.getID().equals(id)) {
+            if (postulante.getID() == id) {
                 return postulante;
             }
         }
@@ -244,7 +244,7 @@ public class SistemaSeleccion{
             while ((linea = br.readLine()) != null) {
                 String[] datos = linea.split(",");
                 if (datos.length == 6) { // Asegúrate de que la longitud sea 6 para incluir el nuevo parámetro
-                    String id = datos[0];
+                    int id = Integer.parseInt(datos[0]);
                     String nombre = datos[1];
                     int aniosExperiencia = Integer.parseInt(datos[2]);
                     String nivelEducacion = datos[3];
@@ -300,6 +300,7 @@ public class SistemaSeleccion{
         }
     }
 
+    //Método para generar reporte mediante una opción de menú
     public void generarReporte(String nombreArchivo) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(nombreArchivo))) {
             bw.write("Reporte de Postulantes y Puestos\n");

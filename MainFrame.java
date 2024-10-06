@@ -213,7 +213,7 @@ public class MainFrame extends JFrame {
         int option = JOptionPane.showConfirmDialog(this, message, "Agregar Postulante", JOptionPane.OK_CANCEL_OPTION);
         if (option == JOptionPane.OK_OPTION) {
             try {
-                String id = idField.getText();
+                int id = Integer.parseInt(idField.getText());
                 String nombre = nombreField.getText();
                 int aniosExperiencia = Integer.parseInt(aniosExperienciaField.getText());
                 String nivelEducacion = nivelEducacionField.getText();
@@ -332,7 +332,7 @@ public class MainFrame extends JFrame {
         int option = JOptionPane.showConfirmDialog(this, message, "Buscar Postulante por ID", JOptionPane.OK_CANCEL_OPTION);
         if (option == JOptionPane.OK_OPTION) {
             try {
-                String id = idField.getText();
+                int id = Integer.parseInt(idField.getText());
                 Postulante postulante = sistema.buscarPostulantePorId(id);
                 StringBuilder sb = new StringBuilder();
                 sb.append("ID: ").append(postulante.getID()).append("\n");

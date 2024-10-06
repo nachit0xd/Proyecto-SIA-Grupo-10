@@ -1,7 +1,7 @@
 import java.util.List;
 
 public class Postulante{
-    private String id;
+    private int id;
     private String nombre;
     private List<Competencia> competencias;
     private int aniosExperiencia;
@@ -9,7 +9,7 @@ public class Postulante{
     private String profesion;
 
     //Constructor
-    public Postulante(String id, String nombre, List<Competencia> competencias, int aniosExperiencia, String educacion, String profesion){
+    public Postulante(int id, String nombre, List<Competencia> competencias, int aniosExperiencia, String educacion, String profesion){
         this.id = id;
         this.nombre = nombre;
         this.competencias = competencias;
@@ -19,7 +19,7 @@ public class Postulante{
     }
 
     //Setters
-    public void setID(String id){
+    public void setID(int id){
         this.id = id;
     }
     public void setNombre(String nombre){
@@ -38,7 +38,7 @@ public class Postulante{
         this.profesion = profesion;
     }
     //Getters
-    public String getID(){
+    public int getID(){
         return id;
     }
     public String getNombre(){
