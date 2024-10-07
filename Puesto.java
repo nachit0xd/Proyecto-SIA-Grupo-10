@@ -1,6 +1,7 @@
 import java.util.List;
 
 public class Puesto{
+    //Atributos de la clase
     private int id;
     private String nombre;
     private String descripcion;

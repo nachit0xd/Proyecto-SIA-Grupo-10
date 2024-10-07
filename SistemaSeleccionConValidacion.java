@@ -1,7 +1,7 @@
 import javax.swing.JOptionPane;
 
 public class SistemaSeleccionConValidacion extends SistemaSeleccion {
-
+    // Método para agregar un postulante
     public void agregarPostulante(Postulante postulante) {
         // Verificar si el postulante ya existe
         for (Postulante p : getPostulantes()) {

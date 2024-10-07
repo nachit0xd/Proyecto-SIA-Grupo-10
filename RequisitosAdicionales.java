@@ -1,4 +1,5 @@
 public class RequisitosAdicionales{
+    //Atributos de la clase
     private int minAniosExperiencia;
     private String educaciónRequerida;
 

@@ -2,7 +2,7 @@ import javax.swing.JOptionPane;
 
 public class SistemaSeleccionConNotificacion extends SistemaSeleccion {
 
-
+    // Método para agregar un postulante
     public void agregarPostulante(Postulante postulante) {
         super.agregarPostulante(postulante); // Llama al método de la clase padre
         // Simular notificación al administrador

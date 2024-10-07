@@ -5,14 +5,17 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+// Clase MainFrame (no confundir con la clase Main, aquí se crea la interfaz gráfica)
 public class MainFrame extends JFrame {
     private SistemaSeleccion sistema;
 
     // Constructor
     public MainFrame(SistemaSeleccion sistema) {
         this.sistema = sistema;
-        sistema.cargarDatos(); 
+        // Cargar datos guardados
+        sistema.cargarDatos();
 
+        // Configuración de la ventana
         setTitle("Sistema de Selección");
         setSize(700, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -28,6 +31,8 @@ public class MainFrame extends JFrame {
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(4, 1));
 
+        //Botones
+        //Botón para mostrar el menú de postulantes
         JButton btnPostulantes = new JButton("Postulantes");
         btnPostulantes.addActionListener(new ActionListener() {
             @Override
@@ -36,6 +41,7 @@ public class MainFrame extends JFrame {
             }
         });
 
+        //Botón para mostrar el menú de puestos
         JButton btnPuestos = new JButton("Puestos");
         btnPuestos.addActionListener(new ActionListener() {
             @Override
@@ -44,6 +50,7 @@ public class MainFrame extends JFrame {
             }
         });
 
+        //Botón para generar un reporte de puestos y postulantes
         JButton btnGenerarReporte = new JButton("Generar Reporte");
         btnGenerarReporte.addActionListener(new ActionListener() {
             @Override
@@ -52,6 +59,7 @@ public class MainFrame extends JFrame {
             }
         });
 
+        //Botón para salir del programa
         JButton btnSalir = new JButton("Salir");
         btnSalir.addActionListener(new ActionListener() {
             @Override
@@ -76,6 +84,8 @@ public class MainFrame extends JFrame {
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(5, 1));
 
+        //Botones
+        //Botón para agregar un postulante nuevo
         JButton btnAgregarPostulante = new JButton("Agregar Postulante");
         btnAgregarPostulante.addActionListener(new ActionListener() {
             @Override
@@ -84,6 +94,7 @@ public class MainFrame extends JFrame {
             }
         });
 
+        //Botón para mostrar postulantes por puesto según el ID del puesto
         JButton btnMostrarPostulantesPorPuesto = new JButton("Mostrar Postulantes por Puesto");
         btnMostrarPostulantesPorPuesto.addActionListener(new ActionListener() {
             @Override
@@ -92,6 +103,7 @@ public class MainFrame extends JFrame {
             }
         });
 
+        //Botón para mostrar todos los postulantes ingresados hasta el momento
         JButton btnMostrarTodosLosPostulantes = new JButton("Mostrar Todos los Postulantes");
         btnMostrarTodosLosPostulantes.addActionListener(new ActionListener() {
             @Override
@@ -100,6 +112,7 @@ public class MainFrame extends JFrame {
             }
         });
 
+        //Botón para buscar un postulante por ID
         JButton btnBuscarPostulantePorId = new JButton("Buscar Postulante por ID");
         btnBuscarPostulantePorId.addActionListener(new ActionListener() {
             @Override
@@ -108,6 +121,7 @@ public class MainFrame extends JFrame {
             }
         });
 
+        //Botón para buscar postulantes por mínimo de años de experiencia
         JButton btnBuscarPostulantesPorExperiencia = new JButton("Buscar Postulantes por Mínimo de experiencia");
         btnBuscarPostulantesPorExperiencia.addActionListener(new ActionListener() {
             @Override
@@ -116,6 +130,7 @@ public class MainFrame extends JFrame {
             }
         });
 
+        //Botón para buscar postulantes por nivel de educación
         JButton btnBuscarPostulantesPorEducacion = new JButton("Buscar Postulantes por Nivel de Educación");
         btnBuscarPostulantesPorEducacion.addActionListener(new ActionListener() {
             @Override
@@ -124,6 +139,7 @@ public class MainFrame extends JFrame {
             }
         });
 
+        //Botón para volver al menú principal
         JButton btnVolver = new JButton("Volver");
         btnVolver.addActionListener(new ActionListener() {
             @Override
@@ -150,6 +166,8 @@ public class MainFrame extends JFrame {
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(4, 1));
     
+        //Botones
+        //Botón para agregar un puesto nuevo
         JButton btnAgregarPuesto = new JButton("Agregar Puesto");
         btnAgregarPuesto.addActionListener(new ActionListener() {
             @Override
@@ -158,6 +176,7 @@ public class MainFrame extends JFrame {
             }
         });
     
+        //Botón para editar un puesto existente
         JButton btnEditarPuesto = new JButton("Editar Puesto");
         btnEditarPuesto.addActionListener(new ActionListener() {
             @Override
@@ -166,6 +185,7 @@ public class MainFrame extends JFrame {
             }
         });
     
+        //Botón para eliminar un puesto existente
         JButton btnEliminarPuesto = new JButton("Eliminar Puesto");
         btnEliminarPuesto.addActionListener(new ActionListener() {
             @Override
@@ -174,6 +194,7 @@ public class MainFrame extends JFrame {
             }
         });
     
+        //Botón para volver al menú principal
         JButton btnVolver = new JButton("Volver");
         btnVolver.addActionListener(new ActionListener() {
             @Override
@@ -194,6 +215,7 @@ public class MainFrame extends JFrame {
 
     // Métodos para agregar postulantes y puestos
     private void agregarPostulante() {
+        // Campos para ingresar los datos del postulante
         JTextField idField = new JTextField();
         JTextField nombreField = new JTextField();
         JTextField aniosExperienciaField = new JTextField();
@@ -217,7 +239,8 @@ public class MainFrame extends JFrame {
                  if (idField.getText().trim().isEmpty() || nombreField.getText().trim().isEmpty() || profesionField.getText().trim().isEmpty() || competenciasField.getText().trim().isEmpty()) {
                     JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos requeridos.", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
-                }   
+                }
+                // Obtener los datos ingresados por el usuario   
                 int id = Integer.parseInt(idField.getText().trim());
                 String nombre = nombreField.getText().trim();
                 int aniosExperiencia = Integer.parseInt(aniosExperienciaField.getText().trim());
@@ -234,6 +257,7 @@ public class MainFrame extends JFrame {
                     }
                 }
 
+                // Crear la lista de competencias
                 List<Competencia> competencias = new ArrayList<>();
                 for (String competenciaStr : competenciasArray) {
                     String[] comp = competenciaStr.split(":");
@@ -245,6 +269,7 @@ public class MainFrame extends JFrame {
                     }
                 }
 
+                // Crear el postulante y agregarlo al sistema
                 Postulante postulante = new Postulante(id, nombre, competencias, aniosExperiencia, nivelEducacion, profesion);
                 sistema.agregarPostulante(postulante);
                 JOptionPane.showMessageDialog(this, "Postulante agregado exitosamente.");
@@ -255,6 +280,7 @@ public class MainFrame extends JFrame {
     }
 
     private void agregarPuesto() {
+        // Campos para ingresar los datos del puesto
         JTextField idField = new JTextField();
         JTextField nombreField = new JTextField();
         JTextField descripcionField = new JTextField();
@@ -276,6 +302,7 @@ public class MainFrame extends JFrame {
         int option = JOptionPane.showConfirmDialog(this, message, "Agregar Puesto", JOptionPane.OK_CANCEL_OPTION);
         if (option == JOptionPane.OK_OPTION) {
             try {
+                // Obtener los datos ingresados por el usuario 
                 int id = Integer.parseInt(idField.getText());
                 String nombre = nombreField.getText();
                 String descripcion = descripcionField.getText();
@@ -351,6 +378,7 @@ public class MainFrame extends JFrame {
         int option = JOptionPane.showConfirmDialog(this, message, "Buscar Postulante por ID", JOptionPane.OK_CANCEL_OPTION);
         if (option == JOptionPane.OK_OPTION) {
             try {
+                // Obtener el ID ingresado por el usuario
                 int id = Integer.parseInt(idField.getText());
                 Postulante postulante = sistema.buscarPostulantePorId(id);
                 StringBuilder sb = new StringBuilder();
@@ -380,7 +408,9 @@ public class MainFrame extends JFrame {
         int option = JOptionPane.showConfirmDialog(this, message, "Buscar Postulantes por Minimo de experiencia", JOptionPane.OK_CANCEL_OPTION);
         if (option == JOptionPane.OK_OPTION) {
             try {
+                // Obtener los años de experiencia ingresados por el usuario
                 int aniosExperiencia = Integer.parseInt(aniosExperienciaField.getText());
+                // Filtrar los postulantes por años de experiencia
                 List<Postulante> postulantes = sistema.filtrarPostulantesPorExperiencia(aniosExperiencia);
                 StringBuilder sb = new StringBuilder();
                 for (Postulante postulante : postulantes) {
@@ -427,6 +457,7 @@ public class MainFrame extends JFrame {
         int option = JOptionPane.showConfirmDialog(this, message, "Editar Puesto", JOptionPane.OK_CANCEL_OPTION);
         if (option == JOptionPane.OK_OPTION) {
             try {
+                // Obtener el ID ingresado por el usuario
                 int id = Integer.parseInt(idField.getText());
                 Puesto puesto = sistema.buscarPuestoPorId(id);
 
@@ -453,7 +484,7 @@ public class MainFrame extends JFrame {
                     puesto.getRequisitosAdicionales().setMinAniosExperiencia(Integer.parseInt(minAniosExperienciaField.getText()));
                     puesto.getRequisitosAdicionales().setEducaciónRequerida(educacionRequeridaField.getText());
                     puesto.setProfesion(profesionField.getText());
-                    // Necesitarás actualizar las competencias también
+                    // Se necesita actualizar las competencias también
                     JOptionPane.showMessageDialog(this, "Puesto editado exitosamente.");
                 }
             } catch (NumberFormatException e) {
@@ -487,6 +518,7 @@ public class MainFrame extends JFrame {
         }
     }
 
+    // Método para generar un reporte
     private void generarReporte() {
         String nombreArchivo = JOptionPane.showInputDialog(this, "Ingrese el nombre del archivo para el reporte (ej. reporte.txt):");
         if (nombreArchivo != null && !nombreArchivo.trim().isEmpty()) {

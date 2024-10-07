@@ -1,6 +1,7 @@
 import java.util.List;
 
 public class Postulante{
+    //Atributos de la clase
     private int id;
     private String nombre;
     private List<Competencia> competencias;
@@ -57,6 +58,7 @@ public class Postulante{
         return profesion;
     }
      // Métodos de la clase
+     // Método que retorna true si el postulante cumple con los requisitos del puesto
      public boolean cumpleRequisitos(Puesto puesto) {
         if (this.aniosExperiencia < puesto.getRequisitosAdicionales().getMinAniosExperiencia()) {
             return false;

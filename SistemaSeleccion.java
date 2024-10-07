@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class SistemaSeleccion{
+    //Atributos de la clase
     private List<Puesto> puestos;
     private List<Postulante> postulantes;
     private Map<Puesto, List<Postulante>> postulantesPorPuesto;
@@ -31,11 +32,13 @@ public class SistemaSeleccion{
     public List<Postulante> getPostulantes() {
         return postulantes;
     }
+
     //Sobrecarga de métodos para agregar puestos
     public void agregarPuesto(Puesto puesto){
         puestos.add(puesto);
         postulantesPorPuesto.put(puesto, new ArrayList<Postulante>());
     }
+    //Métodos omitidos para agregar puestos y postulantes (se usaban en consola)
 /* 
     public void agregarPuesto(Scanner scanner){
         System.out.println("Ingrese el ID del puesto: ");
