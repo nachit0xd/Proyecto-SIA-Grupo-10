@@ -199,38 +199,57 @@ public class MainFrame extends JFrame {
         JTextField aniosExperienciaField = new JTextField();
         JTextField nivelEducacionField = new JTextField();
         JTextField competenciasField = new JTextField();
-        JTextField profesionField = new JTextField(); // Nuevo campo
-    
+        JTextField profesionField = new JTextField();
+
         Object[] message = {
             "ID:", idField,
             "Nombre:", nombreField,
             "Años de Experiencia:", aniosExperienciaField,
             "Nivel de Educación:", nivelEducacionField,
             "Competencias (formato: nombre:nivel;nombre:nivel):", competenciasField,
-            "Profesión:", profesionField // Nuevo campo
+            "Profesión:", profesionField
         };
-    
+
         int option = JOptionPane.showConfirmDialog(this, message, "Agregar Postulante", JOptionPane.OK_CANCEL_OPTION);
         if (option == JOptionPane.OK_OPTION) {
             try {
-                int id = Integer.parseInt(idField.getText());
-                String nombre = nombreField.getText();
-                int aniosExperiencia = Integer.parseInt(aniosExperienciaField.getText());
-                String nivelEducacion = nivelEducacionField.getText();
-                String profesion = profesionField.getText(); // Obtener nuevo campo
+                String id = idField.getText().trim();
+                String nombre = nombreField.getText().trim();
+                int aniosExperiencia = Integer.parseInt(aniosExperienciaField.getText().trim());
+                String nivelEducacion = nivelEducacionField.getText().trim();
+                String profesion = profesionField.getText().trim();
                 String[] competenciasArray = competenciasField.getText().split(";");
+
+                // Validaciones
+                if (id.isEmpty() || nombre.isEmpty() || profesion.isEmpty() || competenciasArray.length == 0) {
+                    JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos requeridos.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                // Verifica si el ID ya existe
+                for (Postulante postulante : sistema.getPostulantes()) {
+                    if (postulante.getID().equals(id)) {
+                        JOptionPane.showMessageDialog(this, "Ya existe un postulante con el ID ingresado.", "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                }
+
                 List<Competencia> competencias = new ArrayList<>();
                 for (String competenciaStr : competenciasArray) {
                     String[] comp = competenciaStr.split(":");
                     if (comp.length == 2) {
                         competencias.add(new Competencia(comp[0], comp[1]));
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Formato de competencia inválido. Use el formato nombre:nivel.", "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
                     }
                 }
+
                 Postulante postulante = new Postulante(id, nombre, competencias, aniosExperiencia, nivelEducacion, profesion);
                 sistema.agregarPostulante(postulante);
                 JOptionPane.showMessageDialog(this, "Postulante agregado exitosamente.");
             } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(this, "Error en el formato de los datos. Por favor, revise los campos.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Años de experiencia debe ser un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
