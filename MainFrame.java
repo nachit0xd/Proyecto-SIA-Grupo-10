@@ -213,22 +213,22 @@ public class MainFrame extends JFrame {
         int option = JOptionPane.showConfirmDialog(this, message, "Agregar Postulante", JOptionPane.OK_CANCEL_OPTION);
         if (option == JOptionPane.OK_OPTION) {
             try {
-                String id = idField.getText().trim();
+                 // Validaciones
+                 if (idField.getText().trim().isEmpty() || nombreField.getText().trim().isEmpty() || profesionField.getText().trim().isEmpty() || competenciasField.getText().trim().isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos requeridos.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }   
+                int id = Integer.parseInt(idField.getText().trim());
                 String nombre = nombreField.getText().trim();
                 int aniosExperiencia = Integer.parseInt(aniosExperienciaField.getText().trim());
                 String nivelEducacion = nivelEducacionField.getText().trim();
                 String profesion = profesionField.getText().trim();
                 String[] competenciasArray = competenciasField.getText().split(";");
 
-                // Validaciones
-                if (id.isEmpty() || nombre.isEmpty() || profesion.isEmpty() || competenciasArray.length == 0) {
-                    JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos requeridos.", "Error", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
 
                 // Verifica si el ID ya existe
                 for (Postulante postulante : sistema.getPostulantes()) {
-                    if (postulante.getID().equals(id)) {
+                    if (postulante.getID() == id) {
                         JOptionPane.showMessageDialog(this, "Ya existe un postulante con el ID ingresado.", "Error", JOptionPane.ERROR_MESSAGE);
                         return;
                     }
